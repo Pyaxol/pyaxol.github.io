@@ -196,7 +196,7 @@
                 let content = line.slice(indent.length);
                 
                 content = content
-                    .replace(/\s*([=+:\-*/%<>!&|^~])\s*/g, '$1')
+                    .replace(/\s*([=+:.\-*/%<>!&|^~])\s*/g, '$1')
                     .replace(/\s*([\(\{\[<])\s*/g, '$1')
                     .replace(/\s*([\)\}\]>])\s*/g, '$1')
                     .replace(/\s*,\s*/g, ',')
