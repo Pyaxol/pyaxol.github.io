@@ -124,7 +124,7 @@
                 <div class="output-header">格式化后的代码</div>
                 <div class="output-container">
                     <pre id="outputCode"></pre>
-                    <button class="copy-btn" id="copyBtn">复制代码</button>
+                    <button class="copy-btn" id="copyBtn">Copy</button>
                 </div>
             </div>
         </div>
@@ -145,12 +145,12 @@
             const outputCode = document.getElementById('outputCode').textContent;
             navigator.clipboard.writeText(outputCode).then(() => {
                 const copyBtn = document.getElementById('copyBtn');
-                copyBtn.textContent = '已复制!';
+                copyBtn.textContent = 'Copied!';
                 copyBtn.classList.add('copied');
                 setTimeout(() => {
-                    copyBtn.textContent = '复制代码';
+                    copyBtn.textContent = 'Copy';
                     copyBtn.classList.remove('copied');
-                }, 2000);
+                }, 800);
             }).catch(err => {
                 console.error('复制失败: ', err);
                 alert('复制失败，请手动选择文本后复制');
@@ -196,7 +196,7 @@
                 let content = line.slice(indent.length);
                 
                 content = content
-                    .replace(/\s*([=+\-*/%<>!&|^~])\s*/g, '$1')
+                    .replace(/\s*([=+:\-*/%<>!&|^~])\s*/g, '$1')
                     .replace(/\s*([\(\{\[<])\s*/g, '$1')
                     .replace(/\s*([\)\}\]>])\s*/g, '$1')
                     .replace(/\s*,\s*/g, ',')
