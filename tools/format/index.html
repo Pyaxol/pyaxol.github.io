@@ -1,1 +1,560 @@
-<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Peiyuan的C++代码格式化工具</title><style>body{font-family:Arial,sans-serif;max-width:800px;margin:0 auto;padding:20px;line-height:1.6}.code-container{display:flex;flex-direction:column;gap:15px}textarea{width:calc(100% - 22px);height:300px;padding:10px;border:1px solid #ccc;border-radius:4px;font-family:'Courier New',monospace;font-size:14px;tab-size:4;resize:vertical}.output-wrapper{border:1px solid #ddd;border-radius:4px;background-color:#f8f8f8;margin-top:5px}.output-header{background-color:#eee;padding:8px 10px;border-bottom:1px solid #ddd;font-weight:bold;border-radius:4px 4px 0 0}.output-container{position:relative}#outputCode{width:calc(100% - 22px);height:280px;padding:10px;font-family:'Courier New',monospace;font-size:14px;tab-size:4;overflow:auto;white-space:pre;margin:0;border:none;border-radius:0 0 4px 4px}.copy-btn{position:absolute;top:10px;right:10px;padding:5px 10px;background-color:#4CAF50;color:white;border:none;border-radius:4px;cursor:pointer;font-size:12px;transition:background-color 0.3s;z-index:10}.copy-btn:hover{background-color:#45a049}.copy-btn.copied{background-color:#2196F3}button#formatBtn{padding:10px 15px;background-color:#4CAF50;color:white;border:none;border-radius:4px;cursor:pointer;font-size:16px;transition:background-color 0.3s}button#formatBtn:hover{background-color:#45a049}h1{color:#333;text-align:center;margin-bottom:20px}h2{margin:0 0 5px 0;color:#444;font-size:18px}.container{display:flex;flex-direction:column}</style></head><body><h1>C++代码格式化工具(去空格)</h1><h2><div style="text-align:center"><b>MADE BY PEIYUAN</b></div></h2><p>作用：把一段 C++ 代码中多余空格删去。</p><p>PS:使用 deepseek 辅助编写，srds 让它改了两位数次……</p><div class="code-container"><div class="container"><h2>输入代码:</h2><textarea id="inputCode" placeholder="在这里粘贴您的C++代码..."></textarea></div><button id="formatBtn">格式化代码</button><div class="container"><h2>格式化结果:</h2><div class="output-wrapper"><div class="output-header">格式化后的代码</div><div class="output-container"><pre id="outputCode"></pre><button class="copy-btn" id="copyBtn">Copy</button></div></div></div></div><script>document.getElementById('formatBtn').addEventListener('click',function(){const _0x4a3e=document.getElementById('inputCode').value;const _0x1f2d=_0x3a8d(_0x4a3e);document.getElementById('outputCode').textContent=_0x1f2d;const _0x2e4f=document.getElementById('outputCode');_0x2e4f.scrollTop=_0x2e4f.scrollHeight});document.getElementById('copyBtn').addEventListener('click',function(){const _0x3b5c=document.getElementById('outputCode').textContent;navigator.clipboard.writeText(_0x3b5c).then(()=>{const _0x5d21=document.getElementById('copyBtn');_0x5d21.textContent='Copied!';_0x5d21.classList.add('copied');setTimeout(()=>{_0x5d21.textContent='Copy';_0x5d21.classList.remove('copied')},800)}).catch(_0x4e2f=>{console.error('复制失败: ',_0x4e2f);alert('复制失败，请手动选择文本后复制')})});function _0x3a8d(_0x5b7d){const _0x3c8e=/("(?:\\"|[^"])*")|('(?:\\'|[^'])*')/g;const _0x1a4e=[];let _0x2f3e=_0x5b7d.replace(_0x3c8e,(_0x2d8e)=>{_0x1a4e.push(_0x2d8e);return`\u0000${_0x1a4e.length-1}\u0000`});const _0x4d6e=_0x2f3e.split('\n');let _0x5e9d=[];for(let _0x3f7d=0;_0x3f7d<_0x4d6e.length;_0x3f7d++){let _0x1c8e=_0x4d6e[_0x3f7d].trimEnd();if(_0x1c8e.trim()===''){continue}_0x1c8e=_0x1c8e.replace(/^(( {4})+)/g,(_0x3b6d)=>'\t'.repeat(_0x3b6d.length/4));if(_0x1c8e.trim().startsWith('#')){let _0x4f2e=_0x1c8e.replace(/\u0000(\d+)\u0000/g,(_0x3e9d,_0x2a7e)=>_0x1a4e[parseInt(_0x2a7e)]);_0x5e9d.push(_0x4f2e);continue}if(_0x1c8e.trim()==='{'){if(_0x5e9d.length>0){const _0x5d4e=_0x5e9d.pop();_0x5e9d.push(_0x5d4e+'{');continue}}const _0x2e9d=_0x1c8e.match(/^\s*/)[0];let _0x3d8e=_0x1c8e.slice(_0x2e9d.length);_0x3d8e=_0x3d8e.replace(/\s*([=+:.\-*/%<>!&|^~])\s*/g,'$1').replace(/\s*([\(\{\[<])\s*/g,'$1').replace(/\s*([\)\}\]>])\s*/g,'$1').replace(/\s*,\s*/g,',').replace(/\s*;\s*/g,';').replace(/\s*(->|::)\s*/g,'$1').replace(/\}\s*else\s*\{/g,'}else{').replace(/\}\s*catch\s*\(/g,'}catch(').replace(/\b\s+\b/g,' ').trim();let _0x4e9e=_0x3d8e.replace(/\u0000(\d+)\u0000/g,(_0x3f9d,_0x2b7e)=>_0x1a4e[parseInt(_0x2b7e)]);_0x5e9d.push(_0x2e9d+_0x4e9e)}return _0x5e9d.join('\n')}</script><br><br><br><br></body></html>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peiyuan的C++代码格式化工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .code-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        textarea {
+            width: calc(100% - 22px);
+            height: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            tab-size: 4;
+            resize: vertical;
+        }
+        .output-wrapper {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f8f8f8;
+            margin-top: 5px;
+        }
+        .output-header {
+            background-color: #eee;
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            border-radius: 4px 4px 0 0;
+        }
+        .output-container {
+            position: relative;
+        }
+        #outputCode {
+            width: calc(100% - 22px);
+            height: 280px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            tab-size: 4;
+            overflow: auto;
+            white-space: pre;
+            margin: 0;
+            border: none;
+            border-radius: 0 0 4px 4px;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s;
+            z-index: 10;
+        }
+        .copy-btn:hover {
+            background-color: #45a049;
+        }
+        .copy-btn.copied {
+            background-color: #2196F3;
+        }
+        button#formatBtn {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin: 10px 0;
+        }
+        button#formatBtn:hover {
+            background-color: #45a049;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin: 0 0 5px 0;
+            color: #444;
+            font-size: 18px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+        .options-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+        }
+        .option-group {
+            border: 1px solid #eee;
+            padding: 10px;
+            border-radius: 4px;
+            min-width: 200px;
+        }
+        .option-group h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+        .option-group h3 input[type="checkbox"] {
+            margin-right: 8px;
+        }
+        .option-item {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+        .option-item label {
+            margin-left: 5px;
+            font-size: 14px;
+        }
+        .option-item input[type="checkbox"] {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>C++代码格式化工具(去空格)</h1>
+    <h2><div style="text-align: center;"><b>MADE BY PEIYUAN</b></div></h2>
+    <p>使用方法: 勾选你需要在后面添加空格的符号, 不勾选则删除空格</p>
+    <p>PS: 可恶的美西螈又在折磨鲸鱼了，该工具使用 deepseek 辅助编写，srds 让它改了两位数次……</p>
+
+    <div class="options-container">
+        <div class="option-group">
+            <h3><input type="checkbox" id="allPunctuation"> 标点符号</h3>
+            <div class="option-item">
+                <input type="checkbox" id="comma" class="punctuation-option">
+                <label for="comma">逗号 (,)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="semicolon" class="punctuation-option">
+                <label for="semicolon">分号 (;)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="colon" class="punctuation-option">
+                <label for="colon">冒号 (:)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="dot" class="punctuation-option">
+                <label for="dot">点号 (.)</label>
+            </div>
+        </div>
+        
+        <div class="option-group">
+            <h3><input type="checkbox" id="allBrackets"> 括号</h3>
+            <div class="option-item">
+                <input type="checkbox" id="roundBrackets" class="brackets-option">
+                <label for="roundBrackets">圆括号 ( )</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="squareBrackets" class="brackets-option">
+                <label for="squareBrackets">方括号 [ ]</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="curlyBrackets" class="brackets-option">
+                <label for="curlyBrackets">花括号 { }</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="angleBrackets" class="brackets-option">
+                <label for="angleBrackets">尖括号 < ></label>
+            </div>
+        </div>
+        
+        <div class="option-group">
+            <h3><input type="checkbox" id="allOperators"> 运算符</h3>
+            <div class="option-item">
+                <input type="checkbox" id="assignment" class="operator-option">
+                <label for="assignment">赋值 (=, +=, -= 等)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="arithmetic" class="operator-option">
+                <label for="arithmetic">算术 (+, -, *, /, %)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="comparison" class="operator-option">
+                <label for="comparison">比较 (==, !=, <, > 等)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="logical" class="operator-option">
+                <label for="logical">逻辑 (&&, ||, !)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="bitwise" class="operator-option">
+                <label for="bitwise">位运算 (&, |, ^, ~, <<, >>)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="scope" class="operator-option">
+                <label for="scope">作用域 (::)</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="arrow" class="operator-option">
+                <label for="arrow">箭头 (->)</label>
+            </div>
+        </div>
+        
+        <div class="option-group">
+            <h3><input type="checkbox" id="allKeywords"> 关键字</h3>
+            <div class="option-item">
+                <input type="checkbox" id="ifElse" class="keyword-option">
+                <label for="ifElse">if/else</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="tryCatch" class="keyword-option">
+                <label for="tryCatch">try/catch</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="forWhile" class="keyword-option">
+                <label for="forWhile">for/while</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="return" class="keyword-option">
+                <label for="return">return</label>
+            </div>
+        </div>
+    </div>
+    
+    <div class="code-container">
+        <div class="container">
+            <h2>输入代码:</h2>
+            <textarea id="inputCode" placeholder="在这里粘贴您的C++代码..."></textarea>
+        </div>
+        
+        <button id="formatBtn">格式化代码</button>
+        
+        <div class="container">
+            <h2>格式化结果:</h2>
+            <div class="output-wrapper">
+                <div class="output-header">格式化后的代码</div>
+                <div class="output-container">
+                    <pre id="outputCode"></pre>
+                    <button class="copy-btn" id="copyBtn">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 设置全选/取消全选功能
+        document.getElementById('allPunctuation').addEventListener('change', function() {
+            const options = document.querySelectorAll('.punctuation-option');
+            options.forEach(option => {
+                option.checked = this.checked;
+            });
+        });
+        
+        document.getElementById('allBrackets').addEventListener('change', function() {
+            const options = document.querySelectorAll('.brackets-option');
+            options.forEach(option => {
+                option.checked = this.checked;
+            });
+        });
+        
+        document.getElementById('allOperators').addEventListener('change', function() {
+            const options = document.querySelectorAll('.operator-option');
+            options.forEach(option => {
+                option.checked = this.checked;
+            });
+        });
+        
+        document.getElementById('allKeywords').addEventListener('change', function() {
+            const options = document.querySelectorAll('.keyword-option');
+            options.forEach(option => {
+                option.checked = this.checked;
+            });
+        });
+        
+        // 当子选项变化时检查是否需要取消全选
+        function checkGroup(optionClass, masterCheckboxId) {
+            const options = document.querySelectorAll('.' + optionClass);
+            const master = document.getElementById(masterCheckboxId);
+            
+            options.forEach(option => {
+                option.addEventListener('change', function() {
+                    const allChecked = Array.from(options).every(opt => opt.checked);
+                    const noneChecked = Array.from(options).every(opt => !opt.checked);
+                    
+                    if (allChecked) {
+                        master.checked = true;
+                        master.indeterminate = false;
+                    } else if (noneChecked) {
+                        master.checked = false;
+                        master.indeterminate = false;
+                    } else {
+                        master.indeterminate = true;
+                    }
+                });
+            });
+        }
+        
+        checkGroup('punctuation-option', 'allPunctuation');
+        checkGroup('brackets-option', 'allBrackets');
+        checkGroup('operator-option', 'allOperators');
+        checkGroup('keyword-option', 'allKeywords');
+        
+        // 格式化按钮事件
+        document.getElementById('formatBtn').addEventListener('click', function() {
+            const inputCode = document.getElementById('inputCode').value;
+            const formattedCode = formatCppCode(inputCode);
+            document.getElementById('outputCode').textContent = formattedCode;
+            
+            const outputElement = document.getElementById('outputCode');
+            outputElement.scrollTop = outputElement.scrollHeight;
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const outputCode = document.getElementById('outputCode').textContent;
+            navigator.clipboard.writeText(outputCode).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy';
+                    copyBtn.classList.remove('copied');
+                }, 800);
+            }).catch(err => {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动选择文本后复制');
+            });
+        });
+
+        function formatCppCode(code) {
+            // 获取所有选项状态
+            const options = {
+                // 标点符号
+                comma: document.getElementById('comma').checked,
+                semicolon: document.getElementById('semicolon').checked,
+                colon: document.getElementById('colon').checked,
+                dot: document.getElementById('dot').checked,
+                
+                // 括号
+                roundBrackets: document.getElementById('roundBrackets').checked,
+                squareBrackets: document.getElementById('squareBrackets').checked,
+                curlyBrackets: document.getElementById('curlyBrackets').checked,
+                angleBrackets: document.getElementById('angleBrackets').checked,
+                
+                // 运算符
+                assignment: document.getElementById('assignment').checked,
+                arithmetic: document.getElementById('arithmetic').checked,
+                comparison: document.getElementById('comparison').checked,
+                logical: document.getElementById('logical').checked,
+                bitwise: document.getElementById('bitwise').checked,
+                scope: document.getElementById('scope').checked,
+                arrow: document.getElementById('arrow').checked,
+                
+                // 关键字
+                ifElse: document.getElementById('ifElse').checked,
+                tryCatch: document.getElementById('tryCatch').checked,
+                forWhile: document.getElementById('forWhile').checked,
+                return: document.getElementById('return').checked
+            };
+
+            const stringAndCharRegex = /("(?:\\"|[^"])*")|('(?:\\'|[^'])*')/g;
+            const stringAndCharMatches = [];
+            let protectedCode = code.replace(stringAndCharRegex, (match) => {
+                stringAndCharMatches.push(match);
+                return `\u0000${stringAndCharMatches.length-1}\u0000`;
+            });
+
+            const lines = protectedCode.split('\n');
+            let result = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trimEnd();
+                
+                if (line.trim() === '') {
+                    continue;
+                }
+                
+                line = line.replace(/^(( {4})+)/g, (m) => '\t'.repeat(m.length / 4));
+                
+                if (line.trim().startsWith('#')) {
+                    let restoredLine = line.replace(/\u0000(\d+)\u0000/g, (_, n) => 
+                        stringAndCharMatches[parseInt(n)]);
+                    result.push(restoredLine);
+                    continue;
+                }
+                
+                if (line.trim() === '{') {
+                    if (result.length > 0) {
+                        const lastLine = result.pop();
+                        result.push(lastLine + '{');
+                        continue;
+                    }
+                }
+                
+                const indent = line.match(/^\s*/)[0];
+                let content = line.slice(indent.length);
+                
+                // 根据选项处理空格
+                // 标点符号
+                if (options.comma) {
+                    content = content.replace(/\s*,\s*/g, ', ');
+                } else {
+                    content = content.replace(/\s*,\s*/g, ',');
+                }
+                
+                if (options.semicolon) {
+                    content = content.replace(/\s*;\s*/g, '; ');
+                } else {
+                    content = content.replace(/\s*;\s*/g, ';');
+                }
+                
+                if (options.colon) {
+                    content = content.replace(/\s*:\s*/g, ': ');
+                } else {
+                    content = content.replace(/\s*:\s*/g, ':');
+                }
+                
+                if (options.dot) {
+                    content = content.replace(/\s*\.\s*/g, '. ');
+                } else {
+                    content = content.replace(/\s*\.\s*/g, '.');
+                }
+                
+                // 括号
+                if (options.roundBrackets) {
+                    content = content.replace(/\s*\(\s*/g, ' ( ').replace(/\s*\)\s*/g, ' ) ');
+                } else {
+                    content = content.replace(/\s*\(\s*/g, '(').replace(/\s*\)\s*/g, ')');
+                }
+                
+                if (options.squareBrackets) {
+                    content = content.replace(/\s*\[\s*/g, ' [ ').replace(/\s*\]\s*/g, ' ] ');
+                } else {
+                    content = content.replace(/\s*\[\s*/g, '[').replace(/\s*\]\s*/g, ']');
+                }
+                
+                if (options.curlyBrackets) {
+                    content = content.replace(/\s*\{\s*/g, ' { ').replace(/\s*\}\s*/g, ' } ');
+                } else {
+                    content = content.replace(/\s*\{\s*/g, '{').replace(/\s*\}\s*/g, '}');
+                }
+                
+                if (options.angleBrackets) {
+                    content = content.replace(/\s*<\s*/g, ' < ').replace(/\s*>\s*/g, ' > ');
+                } else {
+                    content = content.replace(/\s*<\s*/g, '<').replace(/\s*>\s*/g, '>');
+                }
+                
+                // 运算符
+                if (options.assignment) {
+                    content = content.replace(/\s*([+\-*/%]?=)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*([+\-*/%]?=)\s*/g, '$1');
+                }
+                
+                if (options.arithmetic) {
+                    content = content.replace(/\s*([+\-*/%])\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*([+\-*/%])\s*/g, '$1');
+                }
+                
+                if (options.comparison) {
+                    content = content.replace(/\s*(==|!=|<=|>=|<|>)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(==|!=|<=|>=|<|>)\s*/g, '$1');
+                }
+                
+                if (options.logical) {
+                    content = content.replace(/\s*(&&|\|\||!)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(&&|\|\||!)\s*/g, '$1');
+                }
+                
+                if (options.bitwise) {
+                    content = content.replace(/\s*([&|^~]|<<|>>)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*([&|^~]|<<|>>)\s*/g, '$1');
+                }
+                
+                if (options.scope) {
+                    content = content.replace(/\s*(::)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(::)\s*/g, '$1');
+                }
+                
+                if (options.arrow) {
+                    content = content.replace(/\s*(->)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(->)\s*/g, '$1');
+                }
+                
+                // 关键字
+                if (options.ifElse) {
+                    content = content.replace(/\}\s*else\s*\{/g, '} else {')
+                                   .replace(/\bif\s*\(/g, 'if (')
+                                   .replace(/\belse\s*if\s*\(/g, 'else if (');
+                } else {
+                    content = content.replace(/\}\s*else\s*\{/g, '}else{')
+                                   .replace(/\bif\s*\(/g, 'if(')
+                                   .replace(/\belse\s*if\s*\(/g, 'else if(');
+                }
+                
+                if (options.tryCatch) {
+                    content = content.replace(/\}\s*catch\s*\(/g, '} catch (');
+                } else {
+                    content = content.replace(/\}\s*catch\s*\(/g, '}catch(');
+                }
+                
+                if (options.forWhile) {
+                    content = content.replace(/\b(for|while)\s*\(/g, '$1 (');
+                } else {
+                    content = content.replace(/\b(for|while)\s*\(/g, '$1(');
+                }
+                
+                if (options.return) {
+                    content = content.replace(/\breturn\s+/g, 'return ');
+                } else {
+                    content = content.replace(/\breturn\s+/g, 'return');
+                }
+                
+                // 处理多余的空格
+                content = content.replace(/\s+/g, ' ').trim();
+                
+                let restoredContent = content.replace(/\u0000(\d+)\u0000/g, (_, n) => 
+                    stringAndCharMatches[parseInt(n)]);
+                
+                result.push(indent + restoredContent);
+            }
+            
+            return result.join('\n');
+        }
+    </script>
+    <br>
+    <br>
+    <br>
+    <br>
+</body>
+</html>
