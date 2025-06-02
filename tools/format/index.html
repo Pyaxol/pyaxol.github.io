@@ -537,7 +537,8 @@
                 if (options.return) {
                     content = content.replace(/\breturn\s+/g, 'return ');
                 } else {
-                    content = content.replace(/\breturn\s+/g, 'return');
+                    content = content.replace(/\breturn\s+(?![0-9])/g, 'return');
+                    content = content.replace(/\breturn\s+(?=[0-9])/g, 'return ');
                 }
                 
                 // 处理多余的空格
