@@ -143,13 +143,19 @@
         .option-item input[type="checkbox"] {
             margin: 0;
         }
+        .option-group.other-options {
+            background-color: #f0f8ff;
+        }
     </style>
 </head>
 <body>
     <h1>C++代码格式化工具(去空格)</h1>
     <h2><div style="text-align: center;"><b>MADE BY PEIYUAN</b></div></h2>
-    <p>使用方法: 勾选你需要在后面/周围添加空格的符号, 不勾选则删除空格，“我们不对奇奇怪怪的码风提供支持”</p>
-    <p>PS: 可恶的美西螈又在折磨鲸鱼了，该工具使用 deepseek 辅助编写，srds 让它改了两位数次……</p>
+    <p>使用方法: 勾选你需要在后面/周围添加空格的符号, 不勾选则删除空格，"我们不对奇奇怪怪的码风提供支持"</p>
+    <p>PS: 可恶的美西螈又在折磨鲸鱼了（但是同时也在折磨他自己，因为每次debug他都要再分析一遍！），该工具使用 deepseek 辅助编写，srds 让它改了两位数次……</p>
+    <p>别看代码这么短，其实都是反反复复改了不知道多少遍才能de掉发现的bug……</p>
+    <p>然后就是关于空格没有添加完全的问题，把格式完的代码再输入几遍就可以了~</p>
+    <p><a href="/tools/formatold">原始版本</a></p>
 
     <div class="options-container">
         <div class="option-group">
@@ -241,6 +247,18 @@
             <div class="option-item">
                 <input type="checkbox" id="return" class="keyword-option">
                 <label for="return">return</label>
+            </div>
+        </div>
+
+        <div class="option-group other-options">
+            <h3>其它</h3>
+            <div class="option-item">
+                <input type="checkbox" id="braceNewline">
+                <label for="braceNewline">大括号 { 单独一行</label>
+            </div>
+            <div class="option-item">
+                <input type="checkbox" id="removeComments">
+                <label for="removeComments">删除所有注释</label>
             </div>
         </div>
     </div>
@@ -350,35 +368,20 @@
         });
 
         function formatCppCode(code) {
-            // 获取所有选项状态
-            const options = {
-                // 标点符号
-                comma: document.getElementById('comma').checked,
-                semicolon: document.getElementById('semicolon').checked,
-                colon: document.getElementById('colon').checked,
-                dot: document.getElementById('dot').checked,
+            const removeComments = document.getElementById('removeComments').checked;
+            const braceNewline = document.getElementById('braceNewline').checked;
+            
+            // 第一步：处理注释（如果启用删除注释）
+            if (removeComments) {
+                // 删除单行注释 (//...)
+                code = code.replace(/\/\/.*$/gm, '');
                 
-                // 括号
-                roundBrackets: document.getElementById('roundBrackets').checked,
-                squareBrackets: document.getElementById('squareBrackets').checked,
-                curlyBrackets: document.getElementById('curlyBrackets').checked,
-                angleBrackets: document.getElementById('angleBrackets').checked,
+                // 删除多行注释 (/*...*/)
+                code = code.replace(/\/\*[\s\S]*?\*\//g, '');
                 
-                // 运算符
-                assignment: document.getElementById('assignment').checked,
-                arithmetic: document.getElementById('arithmetic').checked,
-                comparison: document.getElementById('comparison').checked,
-                logical: document.getElementById('logical').checked,
-                bitwise: document.getElementById('bitwise').checked,
-                scope: document.getElementById('scope').checked,
-                arrow: document.getElementById('arrow').checked,
-                
-                // 关键字
-                ifElse: document.getElementById('ifElse').checked,
-                tryCatch: document.getElementById('tryCatch').checked,
-                forWhile: document.getElementById('forWhile').checked,
-                return: document.getElementById('return').checked
-            };
+                // 删除因此产生的空行
+                code = code.replace(/^\s*[\r\n]/gm, '');
+            }
 
             const stringAndCharRegex = /("(?:\\"|[^"])*")|('(?:\\'|[^'])*')/g;
             const stringAndCharMatches = [];
@@ -406,12 +409,45 @@
                     continue;
                 }
                 
-                if (line.trim() === '{') {
-                    if (result.length > 0) {
+                // 处理大括号断行选项
+                if (braceNewline) {
+                    // 将单独的大括号断行
+                    if (line.trim() === '{') {
+                        const indent = line.match(/^\s*/)[0];
+                        result.push(indent + '{');
+                        continue;
+                    }
+                    
+                    // 处理行尾的大括号
+                    if (line.includes('{') && line.trim() !== '{') {
+                        const parts = line.split('{');
+                        const beforeBrace = parts[0].trim();
+                        const afterBrace = parts.slice(1).join('{');
+                        const indent = line.match(/^\s*/)[0];
+                        
+                        // 添加前部分
+                        if (beforeBrace) {
+                            result.push(indent + beforeBrace);
+                        }
+                        // 添加单独的大括号行
+                        result.push(indent + '{');
+                        // 处理剩余部分
+                        if (afterBrace.trim()) {
+                            line = indent + afterBrace;
+                        } else {
+                            continue;
+                        }
+                    }
+                } else {
+                    // 将单独的大括号与前一行合并
+                    if (line.trim() === '{' && result.length > 0) {
                         const lastLine = result.pop();
                         result.push(lastLine + '{');
                         continue;
                     }
+                    
+                    // 处理行尾的大括号，确保没有多余空格
+                    line = line.replace(/\s*{\s*/g, '{');
                 }
                 
                 const indent = line.match(/^\s*/)[0];
@@ -419,58 +455,60 @@
                 
                 // 根据选项处理空格
                 // 标点符号
-                if (options.comma) {
+                if (document.getElementById('comma').checked) {
                     content = content.replace(/\s*,\s*/g, ', ');
                 } else {
                     content = content.replace(/\s*,\s*/g, ',');
                 }
                 
-                if (options.semicolon) {
+                if (document.getElementById('semicolon').checked) {
                     content = content.replace(/\s*;\s*/g, '; ');
                 } else {
                     content = content.replace(/\s*;\s*/g, ';');
                 }
                 
-                if (options.colon) {
+                if (document.getElementById('colon').checked) {
                     content = content.replace(/\s*:\s*/g, ': ');
                 } else {
                     content = content.replace(/\s*:\s*/g, ':');
                 }
                 
-                if (options.dot) {
+                if (document.getElementById('dot').checked) {
                     content = content.replace(/\s*\.\s*/g, '. ');
                 } else {
                     content = content.replace(/\s*\.\s*/g, '.');
                 }
                 
                 // 括号
-                if (options.roundBrackets) {
+                if (document.getElementById('roundBrackets').checked) {
                     content = content.replace(/\s*\(\s*/g, ' ( ').replace(/\s*\)\s*/g, ' ) ');
                 } else {
                     content = content.replace(/\s*\(\s*/g, '(').replace(/\s*\)\s*/g, ')');
                 }
                 
-                if (options.squareBrackets) {
+                if (document.getElementById('squareBrackets').checked) {
                     content = content.replace(/\s*\[\s*/g, ' [ ').replace(/\s*\]\s*/g, ' ] ');
                 } else {
                     content = content.replace(/\s*\[\s*/g, '[').replace(/\s*\]\s*/g, ']');
                 }
                 
-                if (options.curlyBrackets) {
+                if (document.getElementById('curlyBrackets').checked) {
                     content = content.replace(/\s*\{\s*/g, ' { ').replace(/\s*\}\s*/g, ' } ');
                 } else {
                     content = content.replace(/\s*\{\s*/g, '{').replace(/\s*\}\s*/g, '}');
                 }
                 
-                if (options.angleBrackets) {
-                    content = content.replace(/\s*<\s*/g, ' < ').replace(/\s*>\s*/g, ' > ');
+                if (document.getElementById('angleBrackets').checked) {
+                    // 处理模板参数时保持 < 和 > 不被拆分
+                    content = content.replace(/(\w)\s*<\s*([^=<>])\s*/g, '$1 < $2')
+                                .replace(/\s*<\s*(\w)/g, ' < $1')
+                                .replace(/(\w)\s*>\s*/g, '$1 >');
                 } else {
                     content = content.replace(/\s*<\s*/g, '<').replace(/\s*>\s*/g, '>');
                 }
                 
-                // 运算符
                 // 运算符处理
-                if (options.arithmetic) {
+                if (document.getElementById('arithmetic').checked) {
                     // 处理普通算术运算符（+、-、*、/、%），但不处理复合赋值运算符
                     content = content.replace(/([^+\-*/%=]|^)([+\-*/%])([^+\-*/%=]|$)/g, '$1 $2 $3');
                     // 修复可能被错误分割的负号（如a -b -> a - b）
@@ -480,14 +518,15 @@
                     content = content.replace(/([^+\-*/%=]|^)\s*([+\-*/%])\s*([^+\-*/%=]|$)/g, '$1$2$3');
                 }
 
-                if (options.assignment) {
+                if (document.getElementById('assignment').checked) {
                     // 处理复合赋值运算符（+=、-=等）
                     content = content.replace(/\s*([+\-*/%]?=)\s*/g, ' $1 ');
                 } else {
                     content = content.replace(/\s*([+\-*/%]?=)\s*/g, '$1');
                 }
 
-                if (options.comparison) {
+                // 处理比较运算符 <, >, <=, >=
+                if (document.getElementById('comparison').checked) {
                     // 先处理 <= 和 >=，确保它们不被拆开
                     content = content.replace(/\s*(<=|>=)\s*/g, ' $1 ');
                     // 然后处理单独的 < 和 >，但要排除 << 和 >>
@@ -500,51 +539,60 @@
                 }
 
                 // 处理位运算符 << 和 >>
-                if (options.bitwise) {
+                if (document.getElementById('bitwise').checked) {
                     content = content.replace(/\s*(<<|>>)\s*/g, ' $1 ');
                 } else {
                     content = content.replace(/\s*(<<|>>)\s*/g, '$1');
                 }
-
-                if (options.logical) {
+                
+                if (document.getElementById('logical').checked) {
                     content = content.replace(/\s*(&&|\|\||!)\s*/g, ' $1 ');
                 } else {
                     content = content.replace(/\s*(&&|\|\||!)\s*/g, '$1');
                 }
-
-                if (options.bitwise) {
-                    content = content.replace(/\s*([&|^~]|<<|>>)\s*/g, ' $1 ');
+                
+                if (document.getElementById('scope').checked) {
+                    content = content.replace(/\s*(::)\s*/g, ' $1 ');
                 } else {
-                    content = content.replace(/\s*([&|^~]|<<|>>)\s*/g, '$1');
+                    content = content.replace(/\s*(::)\s*/g, '$1');
+                }
+                
+                if (document.getElementById('arrow').checked) {
+                    content = content.replace(/\s*(->)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(->)\s*/g, '$1');
                 }
                 
                 // 关键字
-                if (options.ifElse) {
+                if (document.getElementById('ifElse').checked) {
                     content = content.replace(/\}\s*else\s*\{/g, '} else {')
-                                   .replace(/\bif\s*\(/g, 'if (')
-                                   .replace(/\belse\s*if\s*\(/g, 'else if (');
+                                .replace(/\bif\s*\(/g, 'if (')
+                                .replace(/\belse\s*if\s*\(/g, 'else if (');
                 } else {
                     content = content.replace(/\}\s*else\s*\{/g, '}else{')
-                                   .replace(/\bif\s*\(/g, 'if(')
-                                   .replace(/\belse\s*if\s*\(/g, 'else if(');
+                                .replace(/\bif\s*\(/g, 'if(')
+                                .replace(/\belse\s*if\s*\(/g, 'else if(');
                 }
                 
-                if (options.tryCatch) {
+                if (document.getElementById('tryCatch').checked) {
                     content = content.replace(/\}\s*catch\s*\(/g, '} catch (');
                 } else {
                     content = content.replace(/\}\s*catch\s*\(/g, '}catch(');
                 }
                 
-                if (options.forWhile) {
+                if (document.getElementById('forWhile').checked) {
                     content = content.replace(/\b(for|while)\s*\(/g, '$1 (');
                 } else {
                     content = content.replace(/\b(for|while)\s*\(/g, '$1(');
                 }
                 
-                if (options.return) {
+                // return处理
+                if (document.getElementById('return').checked) {
                     content = content.replace(/\breturn\s+/g, 'return ');
                 } else {
+                    // 只有当return后面不是数字时才移除空格
                     content = content.replace(/\breturn\s+(?![0-9])/g, 'return');
+                    // 保留return后面跟着数字时的空格
                     content = content.replace(/\breturn\s+(?=[0-9])/g, 'return ');
                 }
                 
@@ -556,8 +604,31 @@
                 
                 result.push(indent + restoredContent);
             }
+
+            let formattedCode = result.join('\n');
             
-            return result.join('\n');
+            // Fix incorrectly spaced compound operators
+            formattedCode = formattedCode
+                .replace(/<\s*=/g, '<=')
+                .replace(/>\s*=/g, '>=')
+                .replace(/\+\s*=/g, '+=')
+                .replace(/\-\s*=/g, '-=')
+                .replace(/\*\s*=/g, '*=')
+                .replace(/\/\s*=/g, '/=')
+                .replace(/%\s*=/g, '%=')
+                .replace(/&\s*=/g, '&=')
+                .replace(/\|\s*=/g, '|=')
+                .replace(/\^\s*=/g, '^=')
+                .replace(/\<\s*</g, '<<')
+                .replace(/\>\s*>/g, '>>')
+                .replace(/<<\s*=/g, '<<=')
+                .replace(/>>\s*=/g, '>>=')
+                .replace(/\-\s*>/g, '->')
+                .replace(/:\s*:/g, '::')
+                .replace(/\+\s*\+/g, '++')
+                .replace(/\-\s*\-/g, '--');
+            
+            return formattedCode;
         }
     </script>
     <br>
