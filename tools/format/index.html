@@ -344,7 +344,11 @@
         // 格式化按钮事件
         document.getElementById('formatBtn').addEventListener('click', function() {
             const inputCode = document.getElementById('inputCode').value;
-            const formattedCode = formatCppCode(inputCode);
+            let formattedCode = formatCppCode(inputCode);
+            let t=10;
+            while(t--){
+                formattedCode = formatCppCode(formattedCode);
+            }
             document.getElementById('outputCode').textContent = formattedCode;
             
             const outputElement = document.getElementById('outputCode');
