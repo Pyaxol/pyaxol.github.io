@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peiyuan的C++代码格式化工具</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .code-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        textarea {
+            width: calc(100% - 22px); /* 减去padding和border宽度 */
+            height: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            tab-size: 4;
+            resize: vertical;
+        }
+        .output-wrapper {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f8f8f8;
+            margin-top: 5px; /* 与标题间距 */
+        }
+        .output-header {
+            background-color: #eee;
+            padding: 8px 10px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            border-radius: 4px 4px 0 0;
+        }
+        .output-container {
+            position: relative;
+        }
+        #outputCode {
+            width: calc(100% - 22px); /* 与textarea保持一致 */
+            height: 280px;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            tab-size: 4;
+            overflow: auto;
+            white-space: pre;
+            margin: 0;
+            border: none;
+            border-radius: 0 0 4px 4px;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.3s;
+            z-index: 10;
+        }
+        .copy-btn:hover {
+            background-color: #45a049;
+        }
+        .copy-btn.copied {
+            background-color: #2196F3;
+        }
+        button#formatBtn {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button#formatBtn:hover {
+            background-color: #45a049;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            margin: 0 0 5px 0;
+            color: #444;
+            font-size: 18px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <h1>C++代码格式化工具(去空格)</h1>
+    <h2><div style="text-align: center;"><b>MADE BY PEIYUAN</b></div></h2>
+    <p>作用：把一段 C++ 代码中多余空格删去。</p>
+    <p>PS:使用 deepseek 辅助编写，srds 让它改了两位数次……</p>
+    <div class="code-container">
+        <div class="container">
+            <h2>输入代码:</h2>
+            <textarea id="inputCode" placeholder="在这里粘贴您的C++代码..."></textarea>
+        </div>
+        
+        <button id="formatBtn">格式化代码</button>
+        
+        <div class="container">
+            <h2>格式化结果:</h2>
+            <div class="output-wrapper">
+                <div class="output-header">格式化后的代码</div>
+                <div class="output-container">
+                    <pre id="outputCode"></pre>
+                    <button class="copy-btn" id="copyBtn">Copy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 原有的JavaScript代码保持不变
+        document.getElementById('formatBtn').addEventListener('click', function() {
+            const inputCode = document.getElementById('inputCode').value;
+            const formattedCode = formatCppCode(inputCode);
+            document.getElementById('outputCode').textContent = formattedCode;
+            
+            const outputElement = document.getElementById('outputCode');
+            outputElement.scrollTop = outputElement.scrollHeight;
+        });
+
+        document.getElementById('copyBtn').addEventListener('click', function() {
+            const outputCode = document.getElementById('outputCode').textContent;
+            navigator.clipboard.writeText(outputCode).then(() => {
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = 'Copied!';
+                copyBtn.classList.add('copied');
+                setTimeout(() => {
+                    copyBtn.textContent = 'Copy';
+                    copyBtn.classList.remove('copied');
+                }, 800);
+            }).catch(err => {
+                console.error('复制失败: ', err);
+                alert('复制失败，请手动选择文本后复制');
+            });
+        });
+
+        function formatCppCode(code) {
+            const stringAndCharRegex = /("(?:\\"|[^"])*")|('(?:\\'|[^'])*')/g;
+            const stringAndCharMatches = [];
+            let protectedCode = code.replace(stringAndCharRegex, (match) => {
+                stringAndCharMatches.push(match);
+                return `\u0000${stringAndCharMatches.length-1}\u0000`;
+            });
+
+            const lines = protectedCode.split('\n');
+            let result = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trimEnd();
+                
+                if (line.trim() === '') {
+                    continue;
+                }
+                
+                line = line.replace(/^(( {4})+)/g, (m) => '\t'.repeat(m.length / 4));
+                
+                if (line.trim().startsWith('#')) {
+                    let restoredLine = line.replace(/\u0000(\d+)\u0000/g, (_, n) => 
+                        stringAndCharMatches[parseInt(n)]);
+                    result.push(restoredLine);
+                    continue;
+                }
+                
+                if (line.trim() === '{') {
+                    if (result.length > 0) {
+                        const lastLine = result.pop();
+                        result.push(lastLine + '{');
+                        continue;
+                    }
+                }
+                
+                const indent = line.match(/^\s*/)[0];
+                let content = line.slice(indent.length);
+                
+                content = content
+                    .replace(/\s*([=+:.\-*/%<>!&|^~])\s*/g, '$1')
+                    .replace(/\s*([\(\{\[<])\s*/g, '$1')
+                    .replace(/\s*([\)\}\]>])\s*/g, '$1')
+                    .replace(/\s*,\s*/g, ',')
+                    .replace(/\s*;\s*/g, ';')
+                    .replace(/\s*(->|::)\s*/g, '$1')
+                    .replace(/\}\s*else\s*\{/g, '}else{')
+                    .replace(/\}\s*catch\s*\(/g, '}catch(')
+                    .replace(/\b\s+\b/g, ' ')
+                    .trim();
+                
+                let restoredContent = content.replace(/\u0000(\d+)\u0000/g, (_, n) => 
+                    stringAndCharMatches[parseInt(n)]);
+                
+                result.push(indent + restoredContent);
+            }
+            
+            return result.join('\n');
+        }
+    </script>
+    <br>
+    <br>
+    <br>
+    <br>
+</body>
+</html>
