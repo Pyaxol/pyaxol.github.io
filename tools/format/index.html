@@ -155,8 +155,7 @@
     <p>使用方法: 勾选你需要在后面/周围添加空格的符号, 不勾选则删除该符号周围的空格（如果有的话），"我们不对奇奇怪怪的码风提供支持"</p>
     <p>PS: 可恶的美西螈又在折磨鲸鱼了（但是同时也在折磨他自己，因为每次debug他都要再分析一遍，甚至很多时候ds写的代码都有语法错误！），该工具使用 deepseek 辅助编写，srds 让它改了两位数次……别看代码这么短，其实都是反反复复改了不知道多少遍才能de掉发现的bug……</p>
     <p><del>真的很不容易，三连支持一下吧c1wc1</del></p>
-    <p>然后就是关于空格没有添加完全的问题，把格式完的代码再输入几遍，或者先扔到原始版本里去除所有多余空格，再添加空格</p>
-    <p><a href="/tools/formatold">原始版本</a></p>
+    <p>然后就是关于空格没有添加完全的问题，把格式完的代码再输入几遍就可以了~</p>
 
     <div class="options-container">
         <div class="option-group">
@@ -350,7 +349,7 @@
             while(t--){
                 formattedCode = formatCppCode(formattedCode);
             }
-            document.getElementById('outputCode').textContent = formattedCode;
+            document.getElementById('outputCode').textContent = formattedCode+"\n//This Code is modified by PEIYUAN's C++ format tool(you can try ticking the \"erase comments\" option to remove this message lol)";
             
             const outputElement = document.getElementById('outputCode');
             outputElement.scrollTop = outputElement.scrollHeight;
@@ -486,7 +485,93 @@
                     content = content.replace(/([^+\-*/%=]|^)\s*([+\-*/%])\s*([^+\-*/%=]|$)/g, '$1$2$3');
                 }
 
-                // [其他运算符格式化规则...]
+                // 运算符处理
+                if (document.getElementById('arithmetic').checked) {
+                    // 处理普通算术运算符（+、-、*、/、%），但不处理复合赋值运算符
+                    content = content.replace(/([^+\-*/%=]|^)([+\-*/%])([^+\-*/%=]|$)/g, '$1 $2 $3');
+                    // 修复可能被错误分割的负号（如a -b -> a - b）
+                    content = content.replace(/(\w)\s*-\s*(\w)/g, '$1 - $2');
+                } else {
+                    // 移除普通算术运算符周围的空格，但不影响复合赋值运算符
+                    content = content.replace(/([^+\-*/%=]|^)\s*([+\-*/%])\s*([^+\-*/%=]|$)/g, '$1$2$3');
+                }
+
+                if (document.getElementById('assignment').checked) {
+                    // 处理复合赋值运算符（+=、-=等）
+                    content = content.replace(/\s*([+\-*/%]?=)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*([+\-*/%]?=)\s*/g, '$1');
+                }
+
+                // 处理比较运算符 <, >, <=, >=
+                if (document.getElementById('comparison').checked) {
+                    // 先处理 <= 和 >=，确保它们不被拆开
+                    content = content.replace(/\s*(<=|>=)\s*/g, ' $1 ');
+                    // 然后处理单独的 < 和 >，但要排除 << 和 >>
+                    content = content.replace(/([^<]|^)\s*<\s*([^=<]|$)/g, '$1 < $2');
+                    content = content.replace(/([^>]|^)\s*>\s*([^=>]|$)/g, '$1 > $2');
+                } else {
+                    content = content.replace(/\s*(<=|>=)\s*/g, '$1');
+                    content = content.replace(/([^<]|^)\s*<\s*([^=<]|$)/g, '$1<$2');
+                    content = content.replace(/([^>]|^)\s*>\s*([^=>]|$)/g, '$1>$2');
+                }
+
+                // 处理位运算符 << 和 >>
+                if (document.getElementById('bitwise').checked) {
+                    content = content.replace(/\s*(<<|>>)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(<<|>>)\s*/g, '$1');
+                }
+                
+                if (document.getElementById('logical').checked) {
+                    content = content.replace(/\s*(&&|\|\||!)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(&&|\|\||!)\s*/g, '$1');
+                }
+                
+                if (document.getElementById('scope').checked) {
+                    content = content.replace(/\s*(::)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(::)\s*/g, '$1');
+                }
+                
+                if (document.getElementById('arrow').checked) {
+                    content = content.replace(/\s*(->)\s*/g, ' $1 ');
+                } else {
+                    content = content.replace(/\s*(->)\s*/g, '$1');
+                }
+                // 关键字
+                if (document.getElementById('ifElse').checked) {
+                    content = content.replace(/\}\s*else\s*\{/g, '} else {')
+                                .replace(/\bif\s*\(/g, 'if (')
+                                .replace(/\belse\s*if\s*\(/g, 'else if (');
+                } else {
+                    content = content.replace(/\}\s*else\s*\{/g, '}else{')
+                                .replace(/\bif\s*\(/g, 'if(')
+                                .replace(/\belse\s*if\s*\(/g, 'else if(');
+                }
+                
+                if (document.getElementById('tryCatch').checked) {
+                    content = content.replace(/\}\s*catch\s*\(/g, '} catch (');
+                } else {
+                    content = content.replace(/\}\s*catch\s*\(/g, '}catch(');
+                }
+                
+                if (document.getElementById('forWhile').checked) {
+                    content = content.replace(/\b(for|while)\s*\(/g, '$1 (');
+                } else {
+                    content = content.replace(/\b(for|while)\s*\(/g, '$1(');
+                }
+                
+                // return处理
+                if (document.getElementById('return').checked) {
+                    content = content.replace(/\breturn\s+/g, 'return ');
+                } else {
+                    // 只有当return后面不是数字时才移除空格
+                    content = content.replace(/\breturn\s+(?![0-9])/g, 'return');
+                    // 保留return后面跟着数字时的空格
+                    content = content.replace(/\breturn\s+(?=[0-9])/g, 'return ');
+                }
                 
                 // 处理多余空格
                 content = content.replace(/\s+/g, ' ').trim();
