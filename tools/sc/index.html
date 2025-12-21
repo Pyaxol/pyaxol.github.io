@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Studio Classroom - 练习生成器</title>
+  <link rel="stylesheet" href="style.css">
+  </head>
+<body>
+  <div class="container">
+    <h1>Studio Classroom 练习（网页版）</h1>
+    
+    <div class="controls">
+      <label>生成字母题数: <input id="letn" type="number" min="0" value="10"></label>
+      <label>生成句子题数: <input id="senn" type="number" min="0" value="5"></label>
+      <button id="genBtn">生成题目</button>
+      <button id="checkBtn">检查答案</button>
+    </div>
+    <strong>I. 用所给词的正确形式填空。</strong>
+    <div id="wordbank" class="wordbank">
+      <div id="wordbankList" class="wordbank-list">（未生成）</div>
+    </div>
+
+    <div id="problems"></div>
+
+    <div id="redbank">
+      <strong>II. 请根据汉语，将下面的句子补充完整。</strong>
+      <div id="redbankList">（未生成）</div>
+    </div>
+
+    <div id="score" class="score"></div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
