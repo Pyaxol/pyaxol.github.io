@@ -59,6 +59,10 @@
 
     // render wordbank — 只显示本次生成题目用到的词项
     const wb = letterPool.map(item=> item.entry.letter + '(' + item.entry.typ + ')');
+    for (let i = wb.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = wb[i]; wb[i] = wb[j]; wb[j] = tmp;
+    }
     $('wordbankList').textContent = wb.length? wb.join(', ') : '（未生成）';
 
     // clear render areas
