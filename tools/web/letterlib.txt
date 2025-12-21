@@ -1,0 +1,65 @@
+weekly|adj|I just bought my [weekly] supply of vegetables at the market.
+affordable|adj|The things in this store are very [affordable].
+investment|n|Continuing your studies is an [investment] in your future.
+dramatic|adj|He told the story in a very [dramatic] way.
+conventional|adj|He has a [conventional] job in an office.
+stuff|n|What [stuff] are you putting in the car?
+dairy|adj|Jason loves [dairy] products, especially ice cream.
+spoil|v|The salad will [spoil] quickly unless you put it in the refrigerator.
+overnight|adv|His business became a success almost [overnight].
+drama|n|That [drama] was really interesting to watch.
+dramatically|adv|She reacted very [dramatically] to the news.
+dramatize|v|Do you think they can successfully [dramatize] the book?
+dramatization|n|What did you think of the [dramatization] of the story?
+vaccine|n|At the end of the child’s checkup, the nurse gave him a shot with a [vaccine].
+infancy|n|Some illnesses experienced during [infancy] can have effects that last one’s whole life.
+immune|adj|Once you have recovered from this disease, you are [immune] to it.
+deadly|adj|Some mushrooms are safe to eat, but others are [deadly] if you eat them.
+attain|v|The company [attained] its goal of reaching a billion dollars in sales this year.
+donor|n|The organization sent out letters thanking its [donors] for their support.
+stimulate|v|Our boss called a meeting to discuss the problem, hoping that it would [stimulate] our creativity.
+simultaneously|adv|When the door opened, all three children [simultaneously] yelled, “Dad’s home!”
+unveil|v|The company plans to [unveil] the new product at the exposition next week.
+alliance|n|The countries formed an [alliance] against their common enemy.
+eventually|adv|Your leg will heal [eventually], but for now, don’t try to walk on it.
+retain|v|He was able to [retain] his title as champion for five years.
+bump|n|The new speed [bump] on my street has caused drivers to slow down.
+confusion|n|When the fire alarm went off, everyone looked around in [confusion].
+fearful|adj|As a child, I was [fearful] of unfamiliar places and people.
+angel|n|The teacher has the class do 25 wall [angels] every morning.
+kneel|v|After her knee injury, Doreen had difficulty [kneeling].
+stomach|n|Whenever I have an upset [stomach], I drink ginger tea.
+chest|n|He went to see the doctor about the pain in his [chest].
+confuse|v|I sometimes [confuse] their names because they are so similar.
+confusingly|adv|The instructions were written so [confusingly] that I couldn’t understand them.
+researcher|n|The [researcher] spent years studying how going without sleep affects people.
+uncertainty|n|His [uncertainty] about which university to attend is causing his family a lot of stress.
+characterize|v|How does the doctor [characterize] her behavior?
+perfection|n|Brett’s desire for [perfection] means he takes too much time on projects.
+authentic|adj|Sam’s relationship with Sabrina doesn’t seem very [authentic].
+risky|adj|Debra thinks it is too [risky] to travel to Europe right now.
+boundary|n|People take advantage of Sandra because she doesn’t have any [boundaries].
+gratitude|n|Marlene was filled with [gratitude] when someone stopped to help her when her car broke down.
+straightforward|adj|You’ll never get a [straightforward] answer from Dennis about anything.
+imperfection|n|We all have many [imperfections], but that doesn’t make us bad people.
+tend to|idiom|Instead of being thankful for what she has, Maryann [tends to] complain about what she doesn’t have.
+ecosystem|n|Cutting down too many trees can hurt the forest [ecosystems] and the animals that live there.
+conceive|v|While on vacation in Europe, she [conceived] a design for the house she wanted to build.
+virtual|adj|The museum offers a [virtual] tour, so people can explore it online from anywhere.
+revenue|n|The school festival brought in a lot of [revenue] from food and ticket sales.
+wildlife|n|Tourists were told not to feed the [wildlife] as it could be dangerous for both animals and people.
+annoyance|n|His habit of tapping his pencil was a small but constant [annoyance] during class.
+replicate|v|It's hard to [replicate] the taste of Grandma's cooking!
+amend|v|After reading his essay again, he [amended] the last paragraph to improve the ending.
+exploration|n|Space [exploration] helps scientists learn more about other planets.
+conservation|n|The group works on forest [conservation] to protect the trees and animals.
+swirl|n|I saw a [swirl] of smoke rise from the house over there.
+decoration|n|The [decorations] in the middle of the city are spectacular.
+installation|n|The art [installation] in the park was made of mirrors.
+memorable|adj|Our trip to the mountains was a [memorable] experience.
+carnival|n|We went on a lot of rides at the [carnival] last weekend.
+sculpture|n|A large stone [sculpture] stood in the center of the museum.
+stall|n|I bought a necklace from that jewelry [stall] yesterday.
+sophisticated|adj|He wore a [sophisticated] suit to the wedding.
+Celsius|adj|It is 30 degrees [Celsius] today — a perfect day for the beach.
+delight|v|The magician’s tricks [delighted] the children.

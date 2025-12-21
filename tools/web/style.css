@@ -1,0 +1,36 @@
+:root{--accent:#2b7cff;--ok:#2ea44f;--bad:#d73a49}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:20px;background:#f7f9fc;color:#111}
+.container{max-width:900px;margin:0 auto;padding:20px;background:#fff;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.06)}
+.controls{display:flex;gap:12px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.controls label{font-size:14px}
+button{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer}
+button:disabled{opacity:.6;cursor:default}
+.wordbank{border:2px solid #ddd;padding:12px;border-radius:6px;margin-bottom:12px}
+.wordbank strong{display:block;margin-bottom:6px}
+.wordbank-list{padding:6px;background:#fafbff;border-radius:4px}
+.problem{margin:8px 0;padding:8px;border-radius:6px;border:1px solid #efefef;background:#fff}
+.problem .prompt{margin-bottom:6px}
+.problem input[type='text']{width:60%;padding:6px;border-radius:4px;border:1px solid #ccc}
+.ok{background:rgba(46,164,79,0.08);border-color:var(--ok)}
+.bad{background:rgba(215,58,73,0.06);border-color:var(--bad)}
+.score{margin-top:12px;padding:10px;border-radius:6px;background:#f2f5ff}
+.correctAnswer{margin-left:8px;color:#666;font-size:13px}
+
+/* 简洁样式：整体居中、黑色实线单词库、正确绿/错误红 */
+body{font-family:Arial,Helvetica,sans-serif;background:#fff;color:#000}
+.container{max-width:900px;margin:20px auto;padding:12px}
+.controls{margin-bottom:12px}
+button{padding:6px 10px}
+.wordbank{border:2px solid #000;padding:8px;margin-bottom:12px}
+.wordbank strong{display:block;margin-bottom:6px}
+.problem{padding:6px;margin-bottom:8px;border:1px solid #ddd}
+.problem .prompt{margin-bottom:6px}
+.problem input[type='text']{width:60%;padding:6px}
+.sentence-input{width:80px;padding:4px}
+.ok{color:#0a0}
+.bad{color:#a00}
+input.ok{border:2px solid #0a0;background:#f6fff6}
+input.bad{border:2px solid #a00;background:#fff6f6}
+.correctAnswer{display:block;margin-top:6px;color:#333;font-size:13px}
+.redbank{margin-top:12px}
+.redbank strong{display:block;margin-bottom:6px}
